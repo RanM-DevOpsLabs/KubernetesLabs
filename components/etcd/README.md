@@ -12,6 +12,12 @@ Querying this type of database is extremely fast and flexible, as there is no st
 etcd serves as the brain of the Kubernetes cluster, storing all cluster information.
 
 ## Hands On
+### Overview
+In this quick hands on practice we expirience how data is stored and updated in etcd. <br>
+The below diagram shows how we'll trigger kubctl commands to update information while interactig directly with etcd api from within the master node shell.
+![overview-diagram](hands-on-overview.png)
+
+
 ### Prerequisites
 * Deploy [kind](https://kind.sigs.k8s.io/docs/user/quick-start/) cluster locally
 * When cluster is up and running:
