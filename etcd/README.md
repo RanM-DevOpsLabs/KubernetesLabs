@@ -2,14 +2,14 @@
 
 
 ## What is etcd?
-ectd is a key-value store.
+etcd is a distributed key-value store.
 
-## What is a Key Value Store
-It is a type of database that holds information in a key-value format.
-Querying this type of database is super-fast and it is very flexible in storing informaton, as there is no strict schema for the data to store. 
+## What is a Key Value Store?
+A key-value store is a type of database that stores data in a key-value format.
+Querying this type of database is extremely fast and flexible, as there is no strict schema required for storing information.
 
 ## Etcd in Kubernetes
-ectd performs as the brain of the kubernetes cluster, and every information is stored in there.
+etcd serves as the brain of the Kubernetes cluster, storing all cluster information.
 
 ## Hands On
 ### Prerequisites
