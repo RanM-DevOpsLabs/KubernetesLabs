@@ -14,7 +14,7 @@ etcd serves as the brain of the Kubernetes cluster, storing all cluster informat
 ## Hands On
 ### Overview
 In this quick hands on practice we expirience how data is stored and updated in etcd. <br>
-The below diagram shows how we'll trigger kubctl commands to update information while interactig directly with etcd api from within the master node shell.
+The below diagram shows how we'll trigger kubctl commands to update information while interactig directly with etcd api from within the master node shell. <br>
 ![overview-diagram](hands-on-overview.jpg)
 
 
