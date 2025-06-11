@@ -14,25 +14,11 @@ This project demonstrates how to deploy a simple web application on a Kubernetes
 
 ### 🔧 1. Create kind Cluster with Port Mapping
 
-```yaml
-# kind-config.yaml
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-nodes:
-  - role: control-plane
-    extraPortMappings:
-      - containerPort: 80
-        hostPort: 8080
-    kubeadmConfigPatches:
-      - |
-        kind: InitConfiguration
-        nodeRegistration:
-          kubeletExtraArgs:
-            node-labels: "ingress-ready=true,kubernetes.io/os=linux"
-            register-with-taints: "node-role.kubernetes.io/control-plane=:NoSchedule"
-  - role: worker
-```
+In this tutorial we will set a minimal Working kind cluster kind-config.yaml (1 Control-Plane + 1 Worker, with Ingress Labels and Taint)
 
+End result will be true to the following diagram:
+
+![diagram](ingress-lb-diagram.jpg)
 
 then execute the command:<br> 
 `kind create cluster --config kind-config.yaml`
