@@ -1,0 +1,63 @@
+# Kubernetes App Deployment with Ingress on kind
+
+This project demonstrates how to deploy a simple web application on a Kubernetes cluster using `kind`, with two replicas exposed via a Service and accessed through an Ingress controller.
+
+---
+
+## Prerequisites
+
+- Docker
+- [kind](https://kind.sigs.k8s.io/docs/user/quick-start/)
+- kubectl
+- curl (for testing)
+
+
+### 🔧 1. Create kind Cluster with Port Mapping
+
+```yaml
+# kind-config.yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 80
+        hostPort: 8080
+    kubeadmConfigPatches:
+      - |
+        kind: InitConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "ingress-ready=true,kubernetes.io/os=linux"
+            register-with-taints: "node-role.kubernetes.io/control-plane=:NoSchedule"
+  - role: worker
+```
+
+
+then execute the command:<br> 
+`kind create cluster --config kind-config.yaml`
+
+### 🌐 2. Install NGINX Ingress Controller
+`kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/kind/deploy.yaml`
+
+
+### 🚀 3. Deploy the App (2 Replicas)
+- `cd components/ingress/type-load-balancer`
+- `kubectl apply -f app-deployment.yaml`
+
+### 🔌 4. Expose App with a Service
+ - `kubectl apply -f app-service.yaml`
+
+ ### 🌍 5. Create an Ingress
+ - `kubectl apply -f app-ingress.yaml`
+
+### 🧪 6. Test the Setup
+- `curl http://localhost:8080/`
+
+### 🕵️‍♂️ 7. Inspect the results:
+with each hit of the curl command you should get a response (in a round-robin type balancing) - from each pod at a time.
+
+```
+Hello from hello-app-xxxxx
+Hello from hello-app-yyyyy
+```
