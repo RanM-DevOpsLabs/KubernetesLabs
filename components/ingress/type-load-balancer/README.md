@@ -18,7 +18,7 @@ In this tutorial we will set a minimal Working kind cluster kind-config.yaml (1 
 
 End result will be true to the following diagram:
 
-![diagram](ingress-lb-diagram.jpg)
+![diagram](ing-lb.jpg)
 
 then execute the command:<br> 
 `kind create cluster --config kind-config.yaml`
