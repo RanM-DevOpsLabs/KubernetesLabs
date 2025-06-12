@@ -32,6 +32,9 @@ This Kustomize setup manages a simple "Hello World" application with:
 - **Dev Overlay**: Development-specific configurations (2 replicas, dev prefix)
 - **Prod Overlay**: Production-specific configurations (4 replicas, prod prefix, different host)
 
+## End result diagram:
+![diagram](kustomize.jpg)
+
 ## 🔧 Base Configuration
 
 The base configuration defines the core Kubernetes resources:
