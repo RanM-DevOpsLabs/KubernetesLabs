@@ -6,5 +6,5 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 5679
+      targetPort: 5678
       name: hello-svc
