@@ -3,10 +3,8 @@ kind: Service
 metadata:
   name: hello-service
 spec:
-  selector:
-    app: hello
   ports:
     - protocol: TCP
       port: 80
       targetPort: 5678
-      name: base-hello-svc
+      name: hello-svc
