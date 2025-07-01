@@ -63,11 +63,90 @@ kubectl config view --raw --minify -o jsonpath='{.users[0].user.client-certifica
 kubectl config view --raw --minify -o jsonpath='{.users[0].user.client-key-data}' | base64 -d > "$CLIENT_KEY_FILE"
 kubectl config view --raw --minify -o jsonpath='{.clusters[0].cluster.certificate-authority-data}' | base64 -d > "$CA_CERT_FILE"
 
-# Call API server directly to list pods
+
+
+```
+### 2. Make It Executable
+`chmod +x list-pods.sh`
+
+### 3. Run It
+`./list-pods.sh`
+
+### 4. Call API Directly to list pods:
+```bash
 curl --cert "$CLIENT_CERT_FILE" \
      --key "$CLIENT_KEY_FILE" \
      --cacert "$CA_CERT_FILE" \
      "$SERVER/api/v1/namespaces/default/pods" | jq .
+```
 
-# Clean up
+### 5. Results:
+#### Top-Level:
+```yml
+{
+  "kind": "PodList",
+  "items": [...]
+}
+```
+- This means the response is a list of pod objects. You have one pod in the list.
+
+#### metadata:
+Describes the pod itself:
+```yml
+"metadata": {
+  "name": "nginx",
+  "namespace": "default",
+  ...
+}
+```
+- name: Pod name (nginx)
+- namespace: Where it lives (default)
+- uid: Unique ID
+- creationTimestamp: When it was created
+#### spec:
+This is the desired state — what the pod should be doing.
+```yml
+"spec": {
+  "containers": [
+    {
+      "name": "nginx",
+      "image": "nginx",
+      ...
+    }
+  ],
+  ...
+}
+```
+- containers: List of containers in the pod (you have one: nginx)
+- image: Docker image (nginx)
+- volumeMounts: Mounts for service account tokens, configmaps, etc.
+- restartPolicy: Set to Always (default for pods)
+
+#### status:
+This is the current state of the pod.
+```yml
+"status": {
+  "phase": "Running",
+  "podIP": "10.244.0.7",
+  "conditions": [...],
+  "containerStatuses": [...]
+}
+```
+* phase: Lifecycle phase (Running)
+* podIP: Cluster IP assigned to the pod
+* conditions: Readiness, init, etc. (all True)
+* containerStatuses: Runtime state of the container:
+  * ready: true
+  * started: true
+  * restartCount: 0
+
+### 6. Cleanup temp directories:
+```bash
 rm "$CLIENT_CERT_FILE" "$CLIENT_KEY_FILE" "$CA_CERT_FILE"
+```
+
+### 7. Notes 📌
+- The request uses client certificate authentication extracted from your kubeconfig.
+- The Kubernetes endpoint for listing pods is:
+`GET /api/v1/namespaces/{namespace}/pods`
+- This method avoids using kubectl and helps understand raw API communication with Kubernetes.
