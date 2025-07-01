@@ -6,7 +6,12 @@ Using `kubectl` command, client can interact with the system through the API Ser
 We can actual bypass the kubectl cli tool and directly invoke requests into the API Server, like so:
 `curl https://CONTROL_PLANE_HOST_NAME/api/v2/namespaces/default/pods` (example of listing pods in the default NS)
 
-### The flow is as follow (Example of Pod Creation Request):
+From [k8s-docs](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/):<br>
+<i>The Kubernetes API server validates and configures data for the api objects which include pods, services, replicationcontrollers, and others. The API Server services REST operations and provides the frontend to the cluster's shared state through which all other components interact.</i>
+
+---
+
+## Under-The-Hood Flow (Example of Pod Creation Request):
 1. Client invoke kubectl command for creating a pod (`kuebctl run nginx --image=nginx`)
 2. Request is authenticated and validated
 3. API Server creates pod object and inform the etcd cluster (reminder: etcd is a key-value datastore that holds the current state of the k8s cluster) 
