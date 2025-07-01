@@ -15,14 +15,16 @@ From [k8s-docs](https://kubernetes.io/docs/reference/command-line-tools-referenc
 ## Under-The-Hood Flow (Example of Pod Creation Request):
 1. Client invoke kubectl command for creating a pod (`kuebctl run nginx --image=nginx`)
 2. Request is authenticated and validated
-3. API Server creates pod object and inform the etcd cluster (reminder: etcd is a key-value datastore that holds the current state of the k8s cluster) 
+3. API Server creates pod object and inform the etcd cluster (reminder: etcd is a key-value store that holds the current state of the k8s cluster) 
 4. Then API Server updates the user that the pod was created
 5. Node Schduler, when its continously monitors the API Server - fetches the information about pod being created, and it should scheduler a node to it. 
 6. Depend on the Schduler configurations, and the currnet state of the k8s cluster nodes - it "decides" on which node to place the newly created pod.
 7. Schduler will then udpate the API server, which in turn will update the etcd cluster, and invoke a request to the kubelet running in the selected node, to create the pod.
 8. The Kubelet will create the pod and instruct the container runtime to run the image in a container.
 9. The kubelet then updates the API Server (for the pod's status), which in turn updates the etcd cluster, for that status.
------
+---
+![api-server-flow](api-server-flow.jpg)
+---
 Every time a change is requested in the k8s system, the same above flow will take place.
 
 # 📘 Kubernetes API Server Tutorial: List Pods via Direct API Call
