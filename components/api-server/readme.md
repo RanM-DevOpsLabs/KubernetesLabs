@@ -1,3 +1,4 @@
+![api-server](api-server.jpg)
 # Understanding Kuberenetes API Server
 
 ## About API Server component
