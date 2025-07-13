@@ -1,3 +1,4 @@
+![kp](kp.png)
 # Kube proxy
 
 In Kubernetes, all pods can communicate with each other, even if they run on different nodes via "Pod Network".
