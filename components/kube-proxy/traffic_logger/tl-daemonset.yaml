@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: traffic-logger
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: traffic-logger
+  template:
+    metadata:
+      labels:
+        app: traffic-logger
+    spec:
+      hostNetwork: true
+      containers:
+      - name: tcpdump
+        image: nicolaka/netshoot
+        securityContext:
+          privileged: true
+        envFrom:
+        - configMapRef:
+            name: tl-config
+        command: ["/bin/sh", "-c"]
+        args:
+          - >
+            ${TCPDUMP_COMMAND} |
+            awk '{print strftime("[%Y-%m-%d %H:%M:%S]"), $0}'

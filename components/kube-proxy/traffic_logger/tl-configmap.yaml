@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tl-config
+  namespace: kube-system
+data:
+  TCPDUMP_COMMAND: "tcpdump -nni any host 10.96.73.109 or host 10.244.X.X"
+
+  # Replace: 
+  # 10.96.73.109 with the ClusterIP of the NGINX service 
+  # 10.244.X.X with the Pod IP from kubectl get pods -o wide
