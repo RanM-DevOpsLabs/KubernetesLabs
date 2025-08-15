@@ -53,5 +53,5 @@ Whenever we want to make changes into our kuberenetes system, we need a mechanis
 - Logger: used by kube-controller-manager
 
 High-level diagram of the process:
-![kcm](kcm.png)
+![kcm](kcm.jpg)
 
