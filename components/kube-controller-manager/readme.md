@@ -52,6 +52,6 @@ Whenever we want to make changes into our kuberenetes system, we need a mechanis
 - Controller: replicaset-controller
 - Logger: used by kube-controller-manager
 
-High-level diagram of the process:
+High-level diagram of the process: </br>
 ![kcm](kcm.jpg)
 
