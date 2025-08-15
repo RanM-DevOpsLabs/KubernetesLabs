@@ -14,12 +14,44 @@ Whenever we want to make changes into our kuberenetes system, we need a mechanis
   This would include: </br>
   - restart failed containers</br>
   - scale pods </br>
-  - recreate resources. 
+  - recreate resources.
+ 
+ ## Common Controllers it Manages
+1. Node Controller – Watches for node health (e.g., down nodes).
+2. Replication Controller – Ensures the correct number of pod replicas are running.
+3. Deployment Controller – Manages rollout and rollback of deployments.
+4. Job Controller – Manages batch jobs until completion.
+5. Service Account & Token Controller – Creates default accounts and secrets.
+
+## How It Works (Basic Flow)
+1. Reads desired state from the API Server (e.g., 3 replicas of a pod).
+2. Watches actual state of the cluster (e.g., only 1 pod is running).
+3. Takes action to match the actual state to the desired state (e.g., starts 2 more pods).
 
 ## Example 
-When executing: 
-`kubectl create namespace test-ns`
-Namespace controller will look if this namespace already exists, if it does, it would inform us - otherwise it will inform us that this ns already exist.
+1. Create a deployment:
+`kubectl create deployment nginx --image=nginx --replicas=2`
 
+2. Manually delete a pod:
+`kubectl delete pod <nginx-pod-name>`
 
+3. Watch it get recreated:
+`kubectl get pods`
+
+4. Check replicaset-controller logs via kube-controller-manager:
+`kubectl logs pod/kube-controller-manager -n kube-system`
+
+### you should see something like:
+`"Finished syncing" logger="replicaset-controller" kind="ReplicaSet" key="default/nginx-bf5d5cf98" duration="38.917µs"`
+
+### This log line from the replicaset-controller means:
+- Sync completed for a ReplicaSet object.
+- Kind: ReplicaSet
+- Key: "default/nginx-bf5d5cf98" (namespace/name)
+- Duration: 38.917µs (very fast!)
+- Controller: replicaset-controller
+- Logger: used by kube-controller-manager
+
+High-level diagram of the process:
+![kcm](kcm.png)
 
