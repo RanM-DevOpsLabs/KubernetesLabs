@@ -16,10 +16,18 @@ Kyverno provides an external admission controller, extending the built-in contro
 By running a dynamic admission controller, kyverno can validate or mutate a request as part of a create update or delete k8s resource flow.
 
 ![flow](howkyvernoworks.jpg)
+<i>source: https://kyverno.io/docs/introduction/how-kyverno-works/ </i>
 
 ### The Flow:
-- API Client Request
-        - Client sends a request to create a resource
-- Request is being authorized
-- Mutating admission controller gets trigger and sends a webhook to the external admission controller (Kyverno)
-- Webhook controller watch for the current applied policies and applies only if the request matches any of them.
+* K8s Admission controller receives a request for resource creation (say, an nginx deployment)
+* Kyverno intercepts the addmission webhook (as it registered to receive them)
+* Kyverno webhook controller forward the request to Kyverno Engine (kind of orchestrator)
+* Engine will:
+  * Finds policies that match the resource (both for mutation or validation)
+  * Runs mutation rule (as mutation applies first always)
+  * Sends the updated resource back to the k8s API Server
+  * Sends "Allow" response to the API Server to create it and restore it in etcd
+* Reports Controller (if enabled) - will create a PolicyReport showing the final result if the policy applied. (PASS / FAIL / WARN / ERROR / SKIP)
+
+# Hands On
+* Create a local kind cluster. 
