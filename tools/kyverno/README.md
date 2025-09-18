@@ -28,6 +28,3 @@ By running a dynamic admission controller, kyverno can validate or mutate a requ
   * Sends the updated resource back to the k8s API Server
   * Sends "Allow" response to the API Server to create it and restore it in etcd
 * Reports Controller (if enabled) - will create a PolicyReport showing the final result if the policy applied. (PASS / FAIL / WARN / ERROR / SKIP)
-
-# Hands On
-* Create a local kind cluster. 
